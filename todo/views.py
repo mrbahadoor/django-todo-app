@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Task
 
@@ -15,4 +15,33 @@ def addTask(request):
     #Create task object
     Task.objects.create(task=task)
 
-    return redirect('home')    
+    return redirect('home')
+
+def markAsDone(request, pk):    
+   
+    task = get_object_or_404(Task, pk=pk)
+    
+    urlPathList = request.path.split('/')
+
+    # IF path contains mark-as-done
+    isCompleted = "mark-as-done" in urlPathList
+    
+    task.is_completed = isCompleted
+    task.save()
+
+    return redirect('home')
+    # return HttpResponse('ok')
+
+def editTask(request, pk):
+
+    get_task = get_object_or_404(Task, pk=pk)
+
+    if request.method == 'POST':
+        return
+    
+    else:
+        context = {
+            'get_task' : get_task 
+        }
+
+        return render(request, 'edit_task.html', context)
