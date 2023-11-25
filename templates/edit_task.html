@@ -17,7 +17,7 @@
         <div class="container">
             <h3 class="py-5 text-center">Django TODO app - Edit task</h3>
 
-            <form action="" method="POST" style="width:500px; margin:auto;">
+            <form action="{% url 'editTask' get_task.pk %}" method="POST" style="width:500px; margin:auto;">
                 {% csrf_token %}
                 <div class="form-group">
                     <span style="display: flex;">
